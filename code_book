@@ -1,95 +1,34 @@
 code_book: description of variables used in run_analysis.R
 
-install.packages("dplyr")
-library(dplyr)
 
-qtest <- NULL
-qtrain <- NULL
+qTestActivities: base test data
+qTrainActivities base train data
 
-qTest <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/test/X_test.txt")
-qTrain <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/train/X_train.txt")
+qActivities: activity labels
 
-qTestActivities <- NULL
-qTrainActivities <- NULL
+qTestActivities: single column of test activities in text format
+qTrainActivities: single column of test activities in text format
 
-qTestActivities <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/test/Y_test.txt")
-qTrainActivities <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/train/Y_train.txt")
+qTestsubj: single column of test subjects
+qTrainsubj: single column of train subjects
 
-qActivities <- NULL
-qActivities <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/activity_labels.txt")
+qTest: combines previous test data sets
+qTrain: combines previous train data sets
 
-qTestActivities[qTestActivities == 1] <- "STANDING"
-qTestActivities[qTestActivities == 2] <- "WALKING_UPSTAIRS"
-qTestActivities[qTestActivities == 3] <- "WALKING_DOWNSTAIRS"
-qTestActivities[qTestActivities == 4] <- "SITTING"
-qTestActivities[qTestActivities == 5] <- "STANDING"
-qTestActivities[qTestActivities == 6] <- "LAYING"
+qColName: contains column of column names (Feature.txt)
+qColNameT: contains row of column names (Feature.txt)
 
-qTrainActivities[qTrainActivities == 1] <- "STANDING"
-qTrainActivities[qTrainActivities == 2] <- "WALKING_UPSTAIRS"
-qTrainActivities[qTrainActivities == 3] <- "WALKING_DOWNSTAIRS"
-qTrainActivities[qTrainActivities == 4] <- "SITTING"
-qTrainActivities[qTrainActivities == 5] <- "STANDING"
-qTrainActivities[qTrainActivities == 6] <- "LAYING"
+q: combines Test and Train datasets with column names
 
-qTest["activity"] <- qTestActivities
-qTrain["activity"] <- qTrainActivities
+qColNameSub: subset of column names requested for first dataframe
 
-qTestsubj <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/test/subject_test.txt")
-qTrainsubj <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/train/subject_train.txt")
+qsub: dataframe containing just the columns requested
 
-qTest["subject"] <- qTestsubj
-qTrain["subject"] <- qTrainsubj
+qColNameMean: subset of column names requested for second dataframe
 
-q <- NULL
-q <- rbind(qTest,qTrain)
+qmeans: second dataframe containing just the columns requested
 
-# Load Table containing column names (Feature.txt)
-qColName <- NULL
-qColName <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/features.txt")
+qma: aggregate mean by activity
+qms: aggregate mean by subject
 
-# Transpose column to a row then assign the names to q
-qColNameT <- t(qColName)
-names(q) <- qColNameT[2,]
-
-
-# Read the subset of column names requested for first dataframe
-qColNameSub <- NULL
-qColNameSub <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/featuresMeanStd.txt")
-
-# Write a dataframe containing just the columns requested
-qsub <- NULL
-qsub <- q[as.character(t(qColNameSub))]
-
-# Read the subset of column names requested for second dataframe
-
-qColNameMean <- NULL
-qColNameMean <- read.table("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/UCI HAR Dataset/featuresMean.txt")
-
-# Write a dataframe containing just the columns requested
-
-qmeans <- NULL
-qmeans <- q[as.character(t(qColNameMean))]
-
-
-
-# This is the original aggregation, but the second line would not run a second time so it is commented out here.
-
-#qma <- qsub %>% group_by(activity) %>% summarise_each(funs(mean))
-#qms <- qsub %>% group_by(subject) %>% summarise_each(funs(mean))
-
-# Final aggregation statements.
-
-qma <- aggregate(qsub[,1:62], by=list(qsub$activity), FUN=mean)
-qms <- aggregate(qsub[,1:62], by=list(qsub$subject), FUN=mean)
-
-# rename the aggragate column to group, and drop the unused group column
-
-colnames(qma)[1] <- "group"
-colnames(qms)[1] <- "group"
-qma$subject <- NULL
-qms$activity <- NULL
-
-# combine to form the second dataframe requested
-
-qm <- rbind(qma,qms)
+qm: stacks qma and qms to form final dataset
