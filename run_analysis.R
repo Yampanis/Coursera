@@ -97,19 +97,4 @@ qms$activity <- NULL
 qm <- rbind(qma,qms)
 
 
-# othercoursework
-jpg <- readJPEG("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/getdata_jeff.jpg", native=TRUE)
-quantile(jpg,probs=c(0.3,0.8))
-eds <- read.csv("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/getdata_data_EDSTATS_Country.csv", stringsAsFactors=FALSE, header=FALSE)
-gdp <- read.csv("C:/Users/Mark/Documents/Coursera/GettingAndCleaningData/getdata_data_GDP.csv", stringsAsFactors=FALSE, header=FALSE)
 
-mg <- merge(gdp, eds, by.x="X", by.y="CountryCode",all=TRUE)
-
-eds[1:54,1:2]
-join(gdp[order(gdp$X),1:2][103:156,],eds[1:54,1:2])
-nrow(join(gdp[order(gdp$CountryCode),1:2][103:330,],eds[1:234,1:2]))
-nrow(join(eds[1:234,1:2],gdp[order(gdp$CountryCode),1:2][103:330,]))
-colnames(gdp)[1] <- "CountryCode"
-
-join(eds[eds$Income.Group == "High income: OECD",1],gdp[,1:2]) 
-    
