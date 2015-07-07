@@ -1,5 +1,6 @@
 code_book: description of variables used in run_analysis.R
 
+This book is an addendum to code books that were provided for the base data.
 
 qTestActivities: base test data
 qTrainActivities base train data
