@@ -4,7 +4,7 @@ This book is an addendum to code books that were provided for the base data.
 "Human Activity Recognition Using Smartphones Dataset Version 1.0"
 
 Most Notably:
-  - measurements are average linear acceleration (m/s/s) or radial acceleration (r/s/s)
+  - measurements are average linear acceleration (m/s/s) or radial acceleration (r/s/s) depending on whether the variable name refers to rotation or linear motion.
   - Features are normalized and bounded within [-1,1].
 
 intermediate data stores created for this analyis are described here:
